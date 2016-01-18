@@ -11,6 +11,16 @@ UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"AngelFaceViewContr
     return %orig;
 }
 
+- (id)HTTPRequestOperationWithHTTPMethod:(NSString *)method
+                                                     URLString:(NSString *)URLString
+                                                    parameters:(id)parameters
+                                                       success:(id)success
+                                                       failure:(id)failure
+{
+    NSLog(@"HTTPRequestOperationWithHTTPMethod method is %@ URLString is %@ parameters is %@ callStackSymbols is %@",method,URLString,parameters,[NSThread callStackSymbols]);
+    return %orig;
+}
+
 /*
 - (id)init
 {
@@ -29,6 +39,8 @@ UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"AngelFaceViewContr
 */
 
 %end
+
+/*
 
 %hook JSWebSocketManager
 
@@ -86,3 +98,18 @@ UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"AngelFaceViewContr
 }
 
 %end
+
+%hook UIApplication
+
+- (BOOL)openURL:(NSURL*)url
+{
+  UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"UIApplication" message:url.absoluteString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+  [alertView show];
+  NSLog(@"UIApplication url is %@ callStackSymbols is %@",url,[NSThread callStackSymbols]);
+
+  return %orig;
+}
+
+%end
+
+*/
